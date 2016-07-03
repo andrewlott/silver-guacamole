@@ -1,4 +1,4 @@
-var project = getParameterByName('project') || '/'
+var project = getParameterByName('project') || '/';
 var socket = io(); //io(project); // :)
 
 var linkShorteningKey = 'AIzaSyDd9WdbjcXKlIb1yhT6v2xz77ZZ4jdkCs4';
