@@ -44,6 +44,8 @@ function setupMain() {
     
     $('body').append('<div id="main">' + average + '</div>');
     $('body').append('<div id="reset-button"><button class="reset">Reset</button></div>');
+    $('body').append('<div id="source"><a href="https://github.com/andrewlott/silver-guacamole">source</a></div>');
+    $('body').append('<div id="members"></div>');
     $("button.reset").each(function(index) {
 	$(this).click(function() {
 	    var msg = {'room' : room, 'reset' : 1};
@@ -124,6 +126,11 @@ socket.on('vote', function(msg){
     fibonacciVotes[msg] = fibonacciVotes[msg] + 1;
     console.log('voting ' + msg);
     recalculateWinner();
+});
+
+socket.on('members', function(msg){
+    console.log(msg);
+    $('div#members').text('👤 ' + msg);
 });
 
 socket.on('reset', function(msg){

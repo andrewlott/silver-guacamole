@@ -5,6 +5,28 @@ div#main {
 
 div#googl {
     font-size: 24px;
+//    font-family: Helvetica;
+}
+
+div#members {
+    position:fixed;
+    bottom: 0;
+    left: 0;
+    font-size: small;
+    color:grey;
+    font-family:Helvetica;
+    margin: 10px;
+}
+
+div#source {
+    font-size: small;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    color:grey;
+    font-family:Helvetica;
+    opacity: 0.1;
+    margin: 10px;
 }
 
 div#reset-button {

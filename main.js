@@ -12,8 +12,9 @@ app.get('/*', function(req, res){
 });
 
 io.on('connection', function(socket){
-  socket.on('room', function(msg){
-      socket.join(msg);
+  socket.on('room', function(room){
+      socket.join(room);
+      io.to(room).emit('members', io.sockets.adapter.rooms[room].length);
   });
 
   socket.on('vote', function(msg){
@@ -35,6 +36,9 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(){
+      for (var room in io.sockets.adapter.rooms) {
+	  io.to(room).emit('members', io.sockets.adapter.rooms[room].length);	  
+      }
   });
 });
 
