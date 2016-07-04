@@ -53,7 +53,6 @@ function setupMobile() {
     }
     $("button.vote").each(function(index) {
 	$(this).click(function() {
-	    console.log('clicking ' + $(this).text());
 	    var msg = {'room' : room, 'vote' : index};
 	    socket.emit('vote', msg);
 	});

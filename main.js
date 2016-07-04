@@ -2,17 +2,19 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var path = null;
 
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
 
 app.get('/*', function(req, res){
-  nmspc = req.originalUrl;
+  path = req.originalUrl;
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket){
+  socket.join(path);
   socket.on('vote', function(msg){
     var room = msg['room'];
     var vote = msg['vote'];
