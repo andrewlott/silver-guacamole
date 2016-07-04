@@ -15,18 +15,26 @@ io.on('connection', function(socket){
   socket.on('room', function(msg){
       socket.join(msg);
   });
+
   socket.on('vote', function(msg){
     var room = msg['room'];
     var vote = msg['vote'];
     io.to(room).emit('vote', vote);
   });
+
+  socket.on('unvote', function(msg){
+    var room = msg['room'];
+    var unvote = msg['unvote'];
+    io.to(room).emit('unvote', unvote);
+  });
+
   socket.on('reset', function(msg){
     var room = msg['room'];
     var reset = msg['reset'];
     io.to(room).emit('reset', reset);
   });
-  socket.on('disconnect', function(){
 
+  socket.on('disconnect', function(){
   });
 });
 

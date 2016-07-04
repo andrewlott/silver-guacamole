@@ -10,11 +10,12 @@ var fibonacci = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610];
 var fibonacciVotes = [];
 var average = 0;
 var votes = 0;
-//if (!isMobile) {
+var currentVoteIndex = -1;
+if (!isMobile) {
     setupMain();
-//} else {
+} else {
     setupMobile();
-//}
+}
 
 function reset() {
     votes = 0;
@@ -23,6 +24,11 @@ function reset() {
 	fibonacciVotes[i] = 0;
     }
     $('#main').text(0);
+    currentVoteIndex = -1;
+    $('button.voted').each(function(index) {
+	$(this).removeClass('voted');
+	$(this).addClass('vote');
+    });
 }
 
 function setupMain() {
@@ -49,26 +55,33 @@ function setupMain() {
 function setupMobile() {
     for(var i = 0; i < fibonacci.length; i++) {
 	var fibby = fibonacci[i];
-	$('body').append('<div class="vote-button"><button class="vote">' + fibby + '</button></div>');
+	$('body').append('<div class="vote-button"><button id="vote' + i + '" class="vote">' + fibby + '</button></div>');
     }
     $("button.vote").each(function(index) {
 	$(this).click(function() {
-	    var msg = {'room' : room, 'vote' : index};
-	    socket.emit('vote', msg);
+	    if (currentVoteIndex != -1) {
+		var unvoteMsg = {'room' : room, 'unvote' : currentVoteIndex};
+		socket.emit('unvote', unvoteMsg);
+
+		$('#vote' + currentVoteIndex).removeClass('voted');
+		$('#vote' + currentVoteIndex).addClass('vote');
+	    }
+	    
+	    if (currentVoteIndex == index) {
+		currentVoteIndex = -1;
+	    } else {
+		currentVoteIndex = index;
+		$(this).removeClass('vote');
+		$(this).addClass('voted');
+
+		var msg = {'room' : room, 'vote' : index};
+		socket.emit('vote', msg);
+	    }
 	});
     });
 }
 
-// Socket.io functions
-
-socket.on('connect', function() {
-    console.log('connecting to ' + room);
-    socket.emit('room', room);
-});
-
-socket.on('vote', function(msg){
-    fibonacciVotes[msg] = fibonacciVotes[msg] + 1;
-
+function recalculateWinner() {
     var maxIndex = 0;
     var maxVotes = 0;
     for (var i = 0; i < fibonacciVotes.length; i++) {
@@ -92,6 +105,25 @@ socket.on('vote', function(msg){
     */
     
     $('#main').text(fibonacci[maxIndex]);
+}
+
+// Socket.io functions
+
+socket.on('connect', function() {
+    console.log('connecting to ' + room);
+    socket.emit('room', room);
+});
+
+socket.on('unvote', function(msg){
+    fibonacciVotes[msg] = fibonacciVotes[msg] - 1;
+    console.log('unvoting ' + msg);
+    recalculateWinner();
+});
+
+socket.on('vote', function(msg){
+    fibonacciVotes[msg] = fibonacciVotes[msg] + 1;
+    console.log('voting ' + msg);
+    recalculateWinner();
 });
 
 socket.on('reset', function(msg){
