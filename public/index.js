@@ -10,11 +10,11 @@ var fibonacci = [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610];
 var fibonacciVotes = [];
 var average = 0;
 var votes = 0;
-if (!isMobile) {
+//if (!isMobile) {
     setupMain();
-} else {
+//} else {
     setupMobile();
-}
+//}
 
 function reset() {
     votes = 0;
@@ -58,6 +58,13 @@ function setupMobile() {
 	});
     });
 }
+
+// Socket.io functions
+
+socket.on('connect', function() {
+    console.log('connecting to ' + room);
+    socket.emit('room', room);
+});
 
 socket.on('vote', function(msg){
     fibonacciVotes[msg] = fibonacciVotes[msg] + 1;
