@@ -143,7 +143,7 @@ button:focus {
 }
 
 .bar {
-  fill: steelblue;
+  fill: #5bc0de;
 }
 
 .bar:hover {

@@ -11,11 +11,11 @@ var fibonacciVotes = [];
 var average = 0;
 var votes = 0;
 var currentVoteIndex = -1;
-if (!isMobile) {
+//if (!isMobile) {
     setupMain();
-} else {
+//} else {
     setupMobile();
-}
+//}
 
 function reset() {
     votes = 0;
@@ -89,7 +89,7 @@ function setupMobile() {
 function setupBar() {
     $('svg').remove();
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 500 - margin.left - margin.right,
+    width = 750 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom;
     
     var x = d3.scale.ordinal()
