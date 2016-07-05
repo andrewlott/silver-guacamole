@@ -29,6 +29,7 @@ function reset() {
 	$(this).removeClass('voted');
 	$(this).addClass('vote');
     });
+    recalculateWinner();
 }
 
 function setupMain() {
