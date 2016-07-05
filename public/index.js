@@ -11,11 +11,11 @@ var fibonacciVotes = [];
 var average = 0;
 var votes = 0;
 var currentVoteIndex = -1;
-//if (!isMobile) {
+if (!isMobile) {
     setupMain();
-//} else {
+} else {
     setupMobile();
-//}
+}
 
 function reset() {
     votes = 0;
