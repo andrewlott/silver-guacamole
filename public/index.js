@@ -39,7 +39,8 @@ function setupMain() {
         contentType: 'application/json; charset=utf-8',
         data: '{ longUrl: "' + myUrl +'"}',
         success: function(response) {
-	    $('body').prepend('<div id="googl">' + response['id'] + '</div>');
+	    $('body').prepend('<div id="googl"><a href="'+ response['id'] +'">' + response['id'] + '</a> | ' + 
+			      '<a href="' + response['id'] + '.qr' + '">QR</a></div>');
         }
     });
     
@@ -89,8 +90,8 @@ function setupMobile() {
 function setupBar() {
     $('svg').remove();
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 750 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    width = $(window).width() / 2 - margin.left - margin.right,
+    height = $(window).height() / 4 - margin.top - margin.bottom;
     
     var x = d3.scale.ordinal()
 	.rangeRoundBands([0, width], .1);
@@ -114,8 +115,9 @@ function setupBar() {
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     var data = [];
+    var total = fibonacciVotes.reduce(function (a,b) {return a + b;}, 0);
     for (var i = 0; i < fibonacci.length; i++) {
-	data[i] = {letter: fibonacci[i], frequency : fibonacciVotes[i] || 0};
+	data[i] = {letter: fibonacci[i], frequency : fibonacciVotes[i] / total || 0};
     }
 	
     x.domain(data.map(function(d) { return d.letter; }));
