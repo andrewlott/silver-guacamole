@@ -29,6 +29,17 @@ div#source {
     margin: 10px;
 }
 
+div#mobiletoggle {
+    font-size: small;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    color:grey;
+    font-family:Helvetica;
+    opacity: 0.75;
+    margin: 10px;
+}
+
 div#reset-button {
     position: fixed;
     top: 0;

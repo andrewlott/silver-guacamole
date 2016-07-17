@@ -17,6 +17,15 @@ if (!isMobile) {
     setupMobile();
 }
 
+function toggleMobile() {
+    isMobile = !isMobile;
+    if (isMobile) {
+	setupMobile();
+    } else {
+	unsetupMobile();
+    }
+}
+
 function reset() {
     votes = 0;
     average = 0;
@@ -47,7 +56,8 @@ function setupMain() {
     $('body').append('<div id="main">' + average + '</div>');
     $('body').append('<div id="bar"></div>');
     $('body').append('<div id="reset-button"><button class="reset">Reset</button></div>');
-    $('body').append('<div id="source"><a href="https://github.com/andrewlott/silver-guacamole">source</a></div>');
+    $('body').append('<div id="mobiletoggle"><a href="javascript:void(0)" onClick="toggleMobile();">Toggle vote</a></div>');
+    //$('body').append('<div id="source"><a href="https://github.com/andrewlott/silver-guacamole">source</a></div>');
     setupBar();
     $('body').append('<div id="members"></div>');
     $("button.reset").each(function(index) {
@@ -84,6 +94,12 @@ function setupMobile() {
 		socket.emit('vote', msg);
 	    }
 	});
+    });
+}
+
+function unsetupMobile() {
+    $('button.vote, button.voted').each(function(index) {
+	$(this).remove();
     });
 }
 
