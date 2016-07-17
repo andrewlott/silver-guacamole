@@ -131,9 +131,11 @@ function setupBar() {
 	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     var data = [];
+    var counts = [];
     var total = fibonacciVotes.reduce(function (a,b) {return a + b;}, 0);
     for (var i = 0; i < fibonacci.length; i++) {
 	data[i] = {letter: fibonacci[i], frequency : fibonacciVotes[i] / total || 0};
+	counts[i] = {letter: fibonacci[i], count : fibonacciVotes[i]};
     }
 	
     x.domain(data.map(function(d) { return d.letter; }));
@@ -153,14 +155,28 @@ function setupBar() {
 	.attr("dy", ".71em")
 	.style("text-anchor", "end");
     
+
     svg.selectAll(".bar")
 	.data(data)
 	.enter().append("rect")
+	.transition().duration(500)
 	.attr("class", "bar")
 	.attr("x", function(d) { return x(d.letter); })
 	.attr("width", x.rangeBand())
 	.attr("y", function(d) { return y(d.frequency); })
 	.attr("height", function(d) { return height - y(d.frequency); });
+
+
+    svg.selectAll(".bar")
+	.data(data)
+	.enter().append("text")
+	.text(function (d) { return '' + d.frequency * total; })
+	.attr('x', function(d) { return x(d.letter) + (x.rangeBand() / 2.5); })
+	.attr('y', function(d) { return y(d.frequency / 2); })
+	.attr('fill', 'white')
+	.attr('opacity', function(d) { return d.frequency > 0 ? 1.0 : 0.0 })
+	.attr('font-family', 'Helvetica')
+	.attr('text-align', 'left');
 }
 
 function type(d) {
