@@ -139,7 +139,7 @@ function setupBar() {
     }
 	
     x.domain(data.map(function(d) { return d.letter; }));
-    y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+    y.domain([0, 1 /*d3.max(data, function(d) { return d.frequency; })*/]);
     
     svg.append("g")
 	.attr("class", "x axis")
@@ -187,10 +187,12 @@ function type(d) {
 function recalculateWinner() {
     var maxIndex = 0;
     var maxVotes = 0;
-    for (var i = 0; i < fibonacciVotes.length; i++) {
-	if (fibonacciVotes[i] >= maxVotes) {
-	    maxVotes = fibonacciVotes[i];
-	    maxIndex = i;
+    if (fibonacciVotes.reduce(function(a, b) { return a + b }, 0) > 0) {
+	for (var i = 0; i < fibonacciVotes.length; i++) {
+	    if (fibonacciVotes[i] >= maxVotes) {
+		maxVotes = fibonacciVotes[i];
+		maxIndex = i;
+	    }
 	}
     }
     // choose nearest fib
