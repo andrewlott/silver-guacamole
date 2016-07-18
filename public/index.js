@@ -188,7 +188,7 @@ function recalculateWinner() {
     var maxIndex = 0;
     var maxVotes = 0;
     for (var i = 0; i < fibonacciVotes.length; i++) {
-	if (fibonacciVotes[i] > maxVotes) {
+	if (fibonacciVotes[i] >= maxVotes) {
 	    maxVotes = fibonacciVotes[i];
 	    maxIndex = i;
 	}
